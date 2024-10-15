@@ -82,7 +82,7 @@ def image_process(dir, filename, outPath, stain):
     ax[1].set_title(f'{proc}')
 
     ax[2].imshow(image, cmap=plt.cm.gray)
-    ax[2].set_title('Objects')
+    ax[2].set_title('Centroids')
 
     for idx in range(0, df_measure.shape[0]):
         y0, x0 = df_measure['centroid-0'][idx], df_measure['centroid-1'][idx]
