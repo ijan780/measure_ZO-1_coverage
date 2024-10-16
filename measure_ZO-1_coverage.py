@@ -1,4 +1,4 @@
-# MeasureZO-1Coverage.py - Calculates coverage of ZO-1 staining.
+# Measure_ZO-1_Coverage.py - Calculates coverage of ZO-1 staining.
 
 import os
 from pathlib import Path
