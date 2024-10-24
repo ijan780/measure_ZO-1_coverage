@@ -21,20 +21,20 @@ def main():
 
     # Import image(s) & initialize output path.
     pattern = '{stain}_{treatment}_{mucus}_{sample}.{filetype}'
-    dirname = R'C:\Users\MVX\OneDrive - UW\Allbritton Lab\Hao\230918'   # set to image file directory
+    dataDir = Path(R'\image_dir')   # set to image file directory
 
     # Initialize output path.
-    outPath = Path(f'{dirname}_Analysis')
+    outPath = Path(f'{dataDir}_Analysis')
     os.makedirs(outPath, exist_ok=True)
 
-    for filename in os.listdir(Path(dirname)):
+    for filename in os.listdir(dataDir):
         patternResult = parse(pattern, filename)
         treatments.append(patternResult['treatment'])
         mucus.append(patternResult['mucus'])
         stains.append(patternResult['stain'])
         samples.append(patternResult['sample'])
-        dir = str(Path(dirname) / filename)
-        sum_lengths.append(image_process(dir, filename[:-4], outPath, patternResult['stain']))
+        imgPath = str(dataDir / filename)
+        sum_lengths.append(image_process(imgPath, filename[:-4], outPath, patternResult['stain']))
 
     # Output final data spreadsheet
     df_final = pd.DataFrame({"Treatment": treatments,
@@ -44,9 +44,9 @@ def main():
                              "Sum_Length": sum_lengths})
     df_final.to_csv(outPath / f'Analysis.csv', header=True, index=False)
 
-def image_process(dir, filename, outPath, stain):
+def image_process(imgPath, filename, outPath, stain):
     # Read 16 bit image, normalize, and convert to 8 bit.
-    image = io.imread(dir)
+    image = io.imread(imgPath)
     image_norm = exposure.rescale_intensity(image)
     image_norm = util.img_as_ubyte(image_norm)
 
